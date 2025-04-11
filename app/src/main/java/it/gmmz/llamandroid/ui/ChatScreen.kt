@@ -1,5 +1,8 @@
 package it.gmmz.llamandroid.ui
 
+import android.app.Activity
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -169,7 +173,20 @@ fun ChatInput(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val context = LocalContext.current
         val focusManager = LocalFocusManager.current
+
+        fun closeKeyboard() {
+            val imm =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val currentFocusedView = (context as? Activity)?.currentFocus
+            currentFocusedView?.let {
+                imm.hideSoftInputFromWindow(it.windowToken, 0)
+            }
+
+            focusManager.clearFocus()
+        }
+
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
@@ -183,7 +200,7 @@ fun ChatInput(
                 onSend = {
                     if (value.isNotBlank()) {
                         onSend()
-                        focusManager.clearFocus()
+                        closeKeyboard()
                     }
                 }
             )
@@ -192,7 +209,7 @@ fun ChatInput(
         Spacer(modifier = Modifier.width(8.dp))
 
         Button(
-            onClick = onSend,
+            onClick = { onSend(); closeKeyboard() },
             enabled = !isLoading && value.isNotBlank()
         ) {
             Text("Send")
