@@ -29,11 +29,11 @@ class ChatViewModel : ViewModel() {
     private val _isGenerating = MutableStateFlow(false)
     val isGenerating: StateFlow<Boolean> = _isGenerating.asStateFlow()
 
-    private val _loadingModel = MutableStateFlow(false)
+    private val _loadingModel = MutableStateFlow(true)
     val loadingModel: StateFlow<Boolean> = _loadingModel.asStateFlow()
 
-    private val _selectedModel = MutableStateFlow(Models.entries.first())
-    val selectedModel: StateFlow<Models> = _selectedModel.asStateFlow()
+    private val _selectedModel: MutableStateFlow<Models?> = MutableStateFlow(null)
+    val selectedModel: StateFlow<Models?> = _selectedModel.asStateFlow()
 
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages: StateFlow<List<ChatMessage>> = _messages.asStateFlow()
@@ -53,11 +53,15 @@ class ChatViewModel : ViewModel() {
     fun loadModel(context: Context) {
         viewModelScope.launch {
             _loadingModel.value = true
+            if (selectedModel.value == null) {
+                return@launch
+            }
+
             try {
                 withContext(Dispatchers.IO) {
-                    Log.i("AI", "Loading model ${selectedModel.value.name}")
+                    Log.i("AI", "Loading model ${selectedModel.value!!.name}")
                     model?.close()
-                    model = context.createModel(selectedModel.value)
+                    model = context.createModel(selectedModel.value!!)
                     Log.i("AI", "Model loaded")
                 }
             } catch (e: Exception) {
@@ -80,7 +84,7 @@ class ChatViewModel : ViewModel() {
                 withContext(Dispatchers.IO) {
                     var startTime = System.currentTimeMillis()
                     var tokenCount = 0
-                    llama(model!!, selectedModel.value, userMessage)
+                    llama(model!!, selectedModel.value!!, userMessage)
                         .collect { newText ->
                             tokenCount++
                             val currentTime = System.currentTimeMillis()

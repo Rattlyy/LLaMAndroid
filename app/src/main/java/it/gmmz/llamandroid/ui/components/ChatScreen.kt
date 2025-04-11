@@ -32,8 +32,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import it.gmmz.llamandroid.vm.ChatMessage
 
 @Composable
@@ -136,10 +138,9 @@ fun ChatBubble(message: ChatMessage) {
                 .background(backgroundColor)
                 .padding(12.dp)
         ) {
-            Text(
-                text = message.content,
-                color = textColor,
-                style = MaterialTheme.typography.bodyLarge
+            MarkdownText(
+                markdown = message.content,
+                syntaxHighlightColor = Color.Transparent,
             )
         }
 

@@ -87,6 +87,7 @@ dependencies {
     implementation("com.github.tonyofrancis.Fetch:fetch2okhttp:3.4.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.compose.material:material-icons-extended:1.6.7")
+    implementation("com.github.jeziellago:compose-markdown:0.5.7")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

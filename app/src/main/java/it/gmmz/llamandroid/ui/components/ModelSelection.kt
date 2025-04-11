@@ -17,7 +17,7 @@ import it.gmmz.llamandroid.modelsDir
 
 @Composable
 fun ModelSelection(
-    selectedModel: Models,
+    selectedModel: Models?,
     onModelSelected: (Models) -> Unit,
     onDownloadModel: (Models) -> Unit,
     context: android.content.Context,

@@ -138,7 +138,6 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(Unit) {
                     downloaderVM.initialize(this@MainActivity)
-                    chatVM.loadModel(this@MainActivity)
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
