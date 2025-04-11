@@ -10,6 +10,8 @@ LLaMAndroid is a simple Android app that allows you to run LLaMA models on your 
 llama.cpp library. 
 
 This is a PoC to show that it is possible to run LLaMA models on Android devices.
+Currently performance is not optimal and the most it can do is run small models.
+Hopefully in the next years we will see more powerful phones that can run larger models.
 
 ## Requirements
 - Android 12.0 or higher
