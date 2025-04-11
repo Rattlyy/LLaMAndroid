@@ -38,7 +38,7 @@ import de.kherud.llama.LlamaModel
 import de.kherud.llama.LogLevel
 import de.kherud.llama.args.LogFormat
 import it.gmmz.llamandroid.ui.DownloadsView
-import it.gmmz.llamandroid.ui.components.ChatScreen
+import it.gmmz.llamandroid.ui.ChatScreen
 import it.gmmz.llamandroid.ui.components.ModelSelection
 import it.gmmz.llamandroid.ui.theme.LLaMAndroid
 import it.gmmz.llamandroid.vm.ChatViewModel

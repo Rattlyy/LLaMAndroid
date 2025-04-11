@@ -1,4 +1,4 @@
-package it.gmmz.llamandroid.ui.components
+package it.gmmz.llamandroid.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import dev.jeziellago.compose.markdowntext.MarkdownText
@@ -168,6 +169,7 @@ fun ChatInput(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val focusManager = LocalFocusManager.current
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
@@ -181,6 +183,7 @@ fun ChatInput(
                 onSend = {
                     if (value.isNotBlank()) {
                         onSend()
+                        focusManager.clearFocus()
                     }
                 }
             )
