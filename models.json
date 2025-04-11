@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Phi128k",
+    "url": "https://huggingface.co/eccheng/Phi-3-mini-128k-instruct-Q4_0-GGUF/resolve/main/phi-3-mini-128k-instruct-q4_0.gguf",
+    "sha256": "0a268d268c8ef66a9a323ca70f9def918849cdcccb73463d9a63694392e0440f",
+    "gpuLayers": 35,
+    "temperature": 0.6,
+    "systemPrompt": "<s>[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should be informative and logical. If you don't know the answer to a question, please don't share false information. Format your responses using Markdown for better readability.\n<</SYS>>\n\n<prompt> [/INST]"
+  },
+  {
+    "name": "DeepSeek1B",
+    "url": "https://huggingface.co/ggml-org/DeepSeek-R1-Distill-Qwen-1.5B-Q4_0-GGUF/resolve/main/deepseek-r1-distill-qwen-1.5b-q4_0.gguf",
+    "sha256": "",
+    "gpuLayers": 35,
+    "temperature": 0.6,
+    "systemPrompt": "<prompt>\n\n<think>"
+  }
+]

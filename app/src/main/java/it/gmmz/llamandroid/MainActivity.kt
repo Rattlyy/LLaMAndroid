@@ -15,15 +15,22 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -136,8 +143,13 @@ class MainActivity : ComponentActivity() {
                 val isGenerating by chatVM.isGenerating.collectAsState()
                 val currentTokensPerSecond by chatVM.currentGeneratingTokensPerSecond.collectAsState()
 
+                val loadingModels by chatVM.loadingModels.collectAsState()
+                val loadModelError by chatVM.loadModelError.collectAsState()
+                val availableModels by chatVM.availableModels.collectAsState()
+
                 LaunchedEffect(Unit) {
                     downloaderVM.initialize(this@MainActivity)
+                    chatVM.fetchModels()
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -148,18 +160,45 @@ class MainActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column(modifier = Modifier.fillMaxSize()) {
-                            // Model selection UI
-                            ModelSelection(
-                                selectedModel = selectedModel,
-                                onModelSelected = { chatVM.selectModel(it, this@MainActivity) },
-                                onDownloadModel = { model ->
-                                    val downloadDir = modelsDir()
-                                    if (!downloadDir.exists()) downloadDir.mkdirs()
+                            if (loadModelError != null) {
+                                Text(
+                                    text = "Error loading model: $loadModelError",
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f),
+                                    textAlign = TextAlign.Center
+                                )
 
-                                    downloaderVM.addDownload(model.url, model.path(this@MainActivity).absolutePath)
-                                },
-                                context = this@MainActivity
-                            )
+                                return@Column
+                            }
+
+                            if (loadingModels) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                )
+                            } else {
+                                // Model selection UI
+                                ModelSelection(
+                                    selectedModel = selectedModel,
+                                    onModelSelected = { chatVM.selectModel(it, this@MainActivity) },
+                                    onDownloadModel = { model ->
+                                        val downloadDir = modelsDir()
+                                        if (!downloadDir.exists()) downloadDir.mkdirs()
+
+                                        downloaderVM.addDownload(
+                                            model.url,
+                                            model.path(this@MainActivity).absolutePath
+                                        )
+                                    },
+                                    availableModels = availableModels,
+                                    context = this@MainActivity
+                                )
+                            }
 
                             // Downloads
                             DownloadsView(

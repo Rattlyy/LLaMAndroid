@@ -12,21 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import it.gmmz.llamandroid.Models
+import it.gmmz.llamandroid.Model
 import it.gmmz.llamandroid.modelsDir
 
 @Composable
 fun ModelSelection(
-    selectedModel: Models?,
-    onModelSelected: (Models) -> Unit,
-    onDownloadModel: (Models) -> Unit,
+    selectedModel: Model?,
+    availableModels: List<Model>,
+    onModelSelected: (Model) -> Unit,
+    onDownloadModel: (Model) -> Unit,
     context: android.content.Context,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Models.entries.forEach { model ->
+        availableModels.forEach { model ->
             val modelFile = context.modelsDir().resolve(model.path(context))
             val modelAvailable = modelFile.exists()
 

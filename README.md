@@ -26,7 +26,7 @@ Hopefully in the next years we will see more powerful phones that can run larger
 # Models
 The app currently supports the following models:
 - Phi 125k Q4_0
-- DeepSeek R1 1.5B Q4_0 
+- DeepSeek R1 1.5B Q4_0
 
 # Credits
 [java-llama.cpp](https://github.com/kherud/java-llama.cpp) - Java bindings for llama.cpp

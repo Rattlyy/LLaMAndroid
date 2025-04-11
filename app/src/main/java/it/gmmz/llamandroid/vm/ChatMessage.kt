@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.kherud.llama.LlamaModel
-import it.gmmz.llamandroid.Models
+import it.gmmz.llamandroid.Model
 import it.gmmz.llamandroid.createModel
 import it.gmmz.llamandroid.llama
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +14,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
+import java.net.URL
 
 data class ChatMessage(
     val isUser: Boolean,
@@ -32,8 +36,17 @@ class ChatViewModel : ViewModel() {
     private val _loadingModel = MutableStateFlow(true)
     val loadingModel: StateFlow<Boolean> = _loadingModel.asStateFlow()
 
-    private val _selectedModel: MutableStateFlow<Models?> = MutableStateFlow(null)
-    val selectedModel: StateFlow<Models?> = _selectedModel.asStateFlow()
+    private val _loadingModels = MutableStateFlow(true)
+    val loadingModels: StateFlow<Boolean> = _loadingModels.asStateFlow()
+
+    private val _availableModels = MutableStateFlow<List<Model>>(emptyList())
+    val availableModels: StateFlow<List<Model>> = _availableModels.asStateFlow()
+
+    private val _loadModelError: MutableStateFlow<String?> = MutableStateFlow(null)
+    val loadModelError: StateFlow<String?> = _loadModelError.asStateFlow()
+
+    private val _selectedModel: MutableStateFlow<Model?> = MutableStateFlow(null)
+    val selectedModel: StateFlow<Model?> = _selectedModel.asStateFlow()
 
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages: StateFlow<List<ChatMessage>> = _messages.asStateFlow()
@@ -44,7 +57,27 @@ class ChatViewModel : ViewModel() {
     private val _currentGeneratingTokensPerSecond = MutableStateFlow(0f)
     val currentGeneratingTokensPerSecond: StateFlow<Float> = _currentGeneratingTokensPerSecond.asStateFlow()
 
-    fun selectModel(model: Models, context: Context) {
+    @OptIn(ExperimentalSerializationApi::class)
+    suspend fun fetchModels() {
+        _loadingModels.value = true
+        try {
+            val models = withContext(Dispatchers.IO) {
+                try {
+                    Json.decodeFromStream<List<Model>>(URL("https://raw.githubusercontent.com/Rattlyy/LLaMAndroid/refs/heads/main/models.json").openStream())
+                } catch (e: Exception) {
+                    Log.e("ChatViewModel", "Error fetching or parsing models", e)
+                    _loadModelError.value = "Error fetching or parsing models\n${e.message}"
+                    emptyList()
+                }
+            }
+
+            _availableModels.value = models
+        } finally {
+            _loadingModels.value = false
+        }
+    }
+
+    fun selectModel(model: Model, context: Context) {
         _messages.value = emptyList()
         _selectedModel.value = model
         loadModel(context)
