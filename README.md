@@ -6,3 +6,4 @@ llama.cpp library.
 # Models
 The app currently supports the following models:
 - Phi 125k Q4_0
+- DeepSeek R1 1.5B Q4_0
