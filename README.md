@@ -1,3 +1,9 @@
+<p align="center">
+<img width="500px" height="300px" src="https://github.com/user-attachments/assets/d637c667-18ab-4689-955d-2b7f52ff4ff6" alt="header"></img>
+</p>
+
+<hr/>
+
 # LLaMAndroid
 
 LLaMAndroid is a simple Android app that allows you to run LLaMA models on your phone using the
