@@ -90,6 +90,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.6.7")
     implementation("com.github.jeziellago:compose-markdown:0.5.7")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    implementation("ru.noties:jlatexmath-android:0.2.0")
+    implementation("ru.noties:jlatexmath-android-font-cyrillic:0.2.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

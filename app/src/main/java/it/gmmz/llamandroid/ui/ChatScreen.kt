@@ -3,6 +3,7 @@ package it.gmmz.llamandroid.ui
 import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,12 +37,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import dev.jeziellago.compose.markdowntext.MarkdownText
 import it.gmmz.llamandroid.vm.ChatMessage
+import ru.noties.jlatexmath.JLatexMathDrawable
 
 @Composable
 fun ChatScreen(
@@ -143,10 +149,71 @@ fun ChatBubble(message: ChatMessage) {
                 .background(backgroundColor)
                 .padding(12.dp)
         ) {
-            MarkdownText(
-                markdown = message.content,
-                syntaxHighlightColor = Color.Transparent,
-            )
+            val content = message.content
+            val latexPattern =
+                "\\$\\$(.*?)\\$\\$|\\$(.*?)\\$|\\\\begin\\{(.*?)\\}(.*?)\\\\end\\{\\3\\}|<latex>(.*?)</latex>"
+                    .toRegex(RegexOption.DOT_MATCHES_ALL)
+            val matches = latexPattern.findAll(content)
+
+            if (matches.any()) {
+                // Content contains LaTeX
+                var lastEnd = 0
+                Column {
+                    matches.forEach { matchResult ->
+                        val beforeLatex = content.substring(lastEnd, matchResult.range.first)
+                        if (beforeLatex.isNotEmpty()) {
+                            MarkdownText(
+                                markdown = beforeLatex,
+                                syntaxHighlightColor = Color.Transparent
+                            )
+                        }
+
+                        // Extract the LaTeX content from whichever group matched
+                        val latexContent =
+                            matchResult.groupValues.drop(1).firstOrNull { it.isNotEmpty() } ?: ""
+
+                        val latexDrawable = JLatexMathDrawable.builder(latexContent)
+                            .textSize(70f)
+                            .padding(8)
+                            .background(backgroundColor.toArgb())
+                            .color(textColor.toArgb())
+                            .align(JLatexMathDrawable.ALIGN_RIGHT)
+                            .build()
+
+                        Image(
+                            painter = BitmapPainter(
+                                createBitmap(
+                                    latexDrawable.intrinsicWidth,
+                                    latexDrawable.intrinsicHeight
+                                ).apply {
+                                    val canvas = android.graphics.Canvas(this)
+                                    latexDrawable.setBounds(0, 0, canvas.width, canvas.height)
+                                    latexDrawable.draw(canvas)
+                                }.asImageBitmap()
+                            ),
+                            contentDescription = "LaTeX formula",
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
+
+                        lastEnd = matchResult.range.last + 1
+                    }
+
+                    // Render any remaining content after the last LaTeX block
+                    if (lastEnd < content.length) {
+                        val afterLatex = content.substring(lastEnd)
+                        MarkdownText(
+                            markdown = afterLatex,
+                            syntaxHighlightColor = Color.Transparent,
+                        )
+                    }
+                }
+            } else {
+                // No LaTeX, just render markdown
+                MarkdownText(
+                    markdown = content,
+                    syntaxHighlightColor = Color.Transparent,
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(2.dp))

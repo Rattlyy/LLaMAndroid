@@ -9,12 +9,18 @@ import de.kherud.llama.args.MiroStat
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.Serializable
 
+@Suppress("ArrayInDataClass")
 @Serializable
 data class Model(
     val name: String,
     val url: String,
     val sha256: String,
     val gpuLayers: Int = 35,
+    val minP: Float = 0.1f,
+    val topP: Float = 0.95f,
+    val topK: Int = 40,
+    val repeatPenalty: Float = 1.0f,
+    val stopStrings: Array<String> = arrayOf("[/INST]", "</s>", "[INST]"),
     val temperature: Float,
     val systemPrompt: String,
 ) {
@@ -41,8 +47,12 @@ fun llama(model: LlamaModel, modelData: Model, prompt: String) = flow {
     val inferParams = InferenceParameters(prompt)
         .setTemperature(modelData.temperature)
         .setPenalizeNl(true)
+        .setTopP(modelData.topP)
+        .setTopK(modelData.topK)
+        .setRepeatPenalty(modelData.repeatPenalty)
+        .setMinP(modelData.minP)
         .setMiroStat(MiroStat.V2)
-        .setStopStrings("[/INST]", "</s>", "[INST]")
+        .setStopStrings(*modelData.stopStrings)
 
     for (output in model.generate(inferParams)) {
         Log.i("AI", output.text)

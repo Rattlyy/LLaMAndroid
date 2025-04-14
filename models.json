@@ -4,15 +4,33 @@
     "url": "https://huggingface.co/eccheng/Phi-3-mini-128k-instruct-Q4_0-GGUF/resolve/main/phi-3-mini-128k-instruct-q4_0.gguf",
     "sha256": "0a268d268c8ef66a9a323ca70f9def918849cdcccb73463d9a63694392e0440f",
     "gpuLayers": 35,
+    "minP": 0.1,
+    "topP": 0.95,
+    "topK": 40,
+    "repeatPenalty": 1.0,
+    "stopStrings": [
+      "[/INST]",
+      "</s>",
+      "[INST]"
+    ],
     "temperature": 0.6,
-    "systemPrompt": "<s>[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should be informative and logical. If you don't know the answer to a question, please don't share false information. Format your responses using Markdown for better readability.\n<</SYS>>\n\n<prompt> [/INST]"
+    "systemPrompt": "<s>[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should be informative and logical. If you don't know the answer to a question, please don't share false information. Format your responses using Markdown for better readability. For mathematical expressions, use LaTeX syntax enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n<</SYS>>\n\n<prompt> [/INST]"
   },
   {
-    "name": "DeepSeek1B",
+    "name": "DeepSeekR1-1B",
     "url": "https://huggingface.co/ggml-org/DeepSeek-R1-Distill-Qwen-1.5B-Q4_0-GGUF/resolve/main/deepseek-r1-distill-qwen-1.5b-q4_0.gguf",
     "sha256": "",
     "gpuLayers": 35,
+    "minP": 0.1,
+    "topP": 0.95,
+    "topK": 40,
+    "repeatPenalty": 1.0,
+    "stopStrings": [
+      "[/INST]",
+      "</s>",
+      "[INST]"
+    ],
     "temperature": 0.6,
-    "systemPrompt": "<prompt>\n\n<think>"
+    "systemPrompt": "<prompt> - Format your responses using Markdown for better readability. For mathematical expressions, use LaTeX syntax enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n\n<think>\n\n"
   }
 ]

@@ -27,6 +27,14 @@ data class ChatMessage(
     var lastTokenTime: Long = 0L,
 )
 
+val json = Json {
+    ignoreUnknownKeys = true
+    isLenient = true
+    prettyPrint = true
+    encodeDefaults = true
+    explicitNulls = false
+}
+
 class ChatViewModel : ViewModel() {
     private var model: LlamaModel? = null
 
@@ -63,7 +71,7 @@ class ChatViewModel : ViewModel() {
         try {
             val models = withContext(Dispatchers.IO) {
                 try {
-                    Json.decodeFromStream<List<Model>>(URL("https://raw.githubusercontent.com/Rattlyy/LLaMAndroid/refs/heads/main/models.json").openStream())
+                    json.decodeFromStream<List<Model>>(URL("https://raw.githubusercontent.com/Rattlyy/LLaMAndroid/refs/heads/main/models.json").openStream())
                 } catch (e: Exception) {
                     Log.e("ChatViewModel", "Error fetching or parsing models", e)
                     _loadModelError.value = "Error fetching or parsing models\n${e.message}"
