@@ -30,7 +30,7 @@ data class Model(
 fun Context.createModel(model: Model): LlamaModel {
     val model = LlamaModel(
         ModelParameters()
-            .setModel(modelsDir().resolve(model.path(this)).absolutePath)
+            .setModel(model.path(this).absolutePath)
             .setGpuLayers(model.gpuLayers)
             .enableLogPrefix()
             .setVerbose()

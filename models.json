@@ -34,20 +34,37 @@
     "systemPrompt": "<prompt> - Format your responses using Markdown for better readability. For mathematical expressions, use LaTeX syntax enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n\n<think>\n\n"
   },
   {
-      "name": "Gemma3-1B",
-      "url": "https://huggingface.co/fernandoruiz/gemma-3-1b-it-Q4_0-GGUF/resolve/main/gemma-3-1b-it-q4_0.gguf",
-      "sha256": "",
-      "gpuLayers": 35,
-      "minP": 0.00,
-      "topP": 0.95,
-      "topK": 64,
-      "repeatPenalty": 1.0,
-      "stopStrings": [
-        "[/INST]",
-        "</s>",
-        "[INST]"
-      ],
-      "temperature": 1.0,
-      "systemPrompt": "<start_of_turn>user\n<prompt> - Please use Markdown for formatting and LaTeX for mathematical expressions, enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n<prompt>\n<end_of_turn>\n<start_of_turn>model\n"
-    }
+    "name": "Gemma3-1B",
+    "url": "https://huggingface.co/fernandoruiz/gemma-3-1b-it-Q4_0-GGUF/resolve/main/gemma-3-1b-it-q4_0.gguf",
+    "sha256": "",
+    "gpuLayers": 99,
+    "minP": 0.00,
+    "topP": 0.95,
+    "topK": 64,
+    "repeatPenalty": 1.0,
+    "stopStrings": [
+      "[/INST]",
+      "</s>",
+      "[INST]"
+    ],
+    "temperature": 1.0,
+    "systemPrompt": "<start_of_turn>user\n<prompt> - Please use Markdown for formatting and LaTeX for mathematical expressions, enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n<prompt>\n<end_of_turn>\n<start_of_turn>model\n"
+  },
+  {
+    "name": "Llama-3.1-8B",
+    "url": "https://huggingface.co/kaetemi/Meta-Llama-3.1-8B-Q4_0-GGUF/resolve/main/meta-llama-3.1-8b-q4_0.gguf",
+    "sha256": "",
+    "gpuLayers": 35,
+    "minP": 0.05,
+    "topP": 0.9,
+    "topK": 40,
+    "repeatPenalty": 1.1,
+    "stopStrings": [
+      "[/INST]",
+      "</s>",
+      "[INST]"
+    ],
+    "temperature": 0.7,
+    "systemPrompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should be informative and logical. Please ensure your responses are socially unbiased and positive. If a question does not make any sense, or is not factually coherent, explain why instead of answering something incorrect. If you don't know the answer to a question, please don't share false information. Format your responses using Markdown for better readability. For mathematical expressions, use LaTeX syntax enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n<|start_header_id|>user<|end_header_id|>\n<prompt>\n<|start_header_id|>assistant<|end_header_id|>\n"
+  }
 ]

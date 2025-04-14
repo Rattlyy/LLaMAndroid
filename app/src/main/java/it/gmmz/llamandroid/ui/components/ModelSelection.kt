@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import it.gmmz.llamandroid.Model
-import it.gmmz.llamandroid.modelsDir
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -31,7 +30,7 @@ fun ModelSelection(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         availableModels.forEach { model ->
-            val modelFile = context.modelsDir().resolve(model.path(context))
+            val modelFile = model.path(context)
             val modelAvailable = modelFile.exists()
 
             if (modelAvailable) {
