@@ -2,6 +2,7 @@ package it.gmmz.llamandroid.ui
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Canvas
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -172,28 +173,42 @@ fun ChatBubble(message: ChatMessage) {
                         val latexContent =
                             matchResult.groupValues.drop(1).firstOrNull { it.isNotEmpty() } ?: ""
 
-                        val latexDrawable = JLatexMathDrawable.builder(latexContent)
-                            .textSize(70f)
-                            .padding(8)
-                            .background(backgroundColor.toArgb())
-                            .color(textColor.toArgb())
-                            .align(JLatexMathDrawable.ALIGN_RIGHT)
-                            .build()
+                        var latexError: String? = null
+                        val latexDrawable = try {
+                            JLatexMathDrawable.builder(latexContent)
+                                .textSize(60f)
+                                .padding(8)
+                                .background(backgroundColor.toArgb())
+                                .color(textColor.toArgb())
+                                .align(JLatexMathDrawable.ALIGN_RIGHT)
+                                .build()
+                        } catch (e: Exception) {
+                            latexError = e.localizedMessage
+                            null
+                        }
 
-                        Image(
-                            painter = BitmapPainter(
-                                createBitmap(
-                                    latexDrawable.intrinsicWidth,
-                                    latexDrawable.intrinsicHeight
-                                ).apply {
-                                    val canvas = android.graphics.Canvas(this)
-                                    latexDrawable.setBounds(0, 0, canvas.width, canvas.height)
-                                    latexDrawable.draw(canvas)
-                                }.asImageBitmap()
-                            ),
-                            contentDescription = "LaTeX formula",
-                            modifier = Modifier.padding(vertical = 4.dp)
-                        )
+                        if (latexDrawable != null) {
+                            Image(
+                                painter = BitmapPainter(
+                                    createBitmap(
+                                        latexDrawable.intrinsicWidth,
+                                        latexDrawable.intrinsicHeight
+                                    ).apply {
+                                        val canvas = Canvas(this)
+                                        latexDrawable.setBounds(0, 0, canvas.width, canvas.height)
+                                        latexDrawable.draw(canvas)
+                                    }.asImageBitmap()
+                                ),
+                                contentDescription = "LaTeX formula",
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
+                        } else {
+                            Text(
+                                text = "LaTeX Error: Unable to parse formula\n\nFormula: $latexContent\nError: $latexError",
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
 
                         lastEnd = matchResult.range.last + 1
                     }

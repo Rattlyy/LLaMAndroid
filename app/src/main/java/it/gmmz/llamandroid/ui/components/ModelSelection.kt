@@ -1,9 +1,11 @@
 package it.gmmz.llamandroid.ui.components
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.AssistChip
@@ -24,10 +26,13 @@ fun ModelSelection(
     onDownloadModel: (Model) -> Unit,
     context: android.content.Context,
 ) {
-    FlowRow(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+    val state = rememberScrollState()
+
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .horizontalScroll(state),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         availableModels.forEach { model ->
             val modelFile = model.path(context)
