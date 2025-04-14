@@ -52,7 +52,7 @@
   },
   {
     "name": "Llama-3.2-1B",
-    "url": "https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/blob/main/Llama-3.2-1B-Instruct-Q4_0_4_4.gguf",
+    "url": "https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_0_4_4.gguf",
     "sha256": "",
     "gpuLayers": 35,
     "minP": 0.05,
