@@ -20,7 +20,7 @@
     "name": "DeepSeekR1-1B",
     "url": "https://huggingface.co/ggml-org/DeepSeek-R1-Distill-Qwen-1.5B-Q4_0-GGUF/resolve/main/deepseek-r1-distill-qwen-1.5b-q4_0.gguf",
     "sha256": "",
-    "gpuLayers": 35,
+    "gpuLayers": 43,
     "minP": 0.1,
     "topP": 0.95,
     "topK": 40,
