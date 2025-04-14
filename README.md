@@ -15,13 +15,14 @@ Hopefully in the next years we will see more powerful phones that can run larger
 
 ## Requirements
 - Android 12.0 or higher
-- Adreno GPU (Snapdragon 7 recommended)
+- Adreno GPU (>=Adreno 7xx)
 - As much RAM as possible (>8GB recommended)
 
 ## Tested Devices
-| Device               | RAM  | Processor          | GPU        |
-|----------------------|------|--------------------|------------|
-| Motorola Edge 50 Pro | 12GB | Snapdragon 7 Gen 3 | Adreno 720 |
+| Device               | RAM  | Processor          | GPU        | Avg T/s |
+|----------------------|------|--------------------|------------|---------|
+| Motorola Edge 50 Pro | 12GB | Snapdragon 7 Gen 3 | Adreno 720 | 6 T/s   |
+| Sony Xperia 1 V      | 12GB | Snapdragon 8 Gen 2 | Adreno 740 | 9 T/s   |
 
 # Models
 The app currently supports the following models:
