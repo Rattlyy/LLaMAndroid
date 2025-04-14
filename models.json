@@ -32,5 +32,22 @@
     ],
     "temperature": 0.6,
     "systemPrompt": "<prompt> - Format your responses using Markdown for better readability. For mathematical expressions, use LaTeX syntax enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n\n<think>\n\n"
-  }
+  },
+  {
+      "name": "Gemma3-1B",
+      "url": "https://huggingface.co/fernandoruiz/gemma-3-1b-it-Q4_0-GGUF/resolve/main/gemma-3-1b-it-q4_0.gguf",
+      "sha256": "",
+      "gpuLayers": 35,
+      "minP": 0.00,
+      "topP": 0.95,
+      "topK": 64,
+      "repeatPenalty": 1.0,
+      "stopStrings": [
+        "[/INST]",
+        "</s>",
+        "[INST]"
+      ],
+      "temperature": 1.0,
+      "systemPrompt": "<start_of_turn>user\n<prompt> - Please use Markdown for formatting and LaTeX for mathematical expressions, enclosed in dollar signs (inline: $x^2$) or double dollar signs (block: $$\\frac{1}{2}$$) or with \\begin{equation}...\\end{equation} tags.\n<prompt>\n<end_of_turn>\n<start_of_turn>model\n"
+    }
 ]

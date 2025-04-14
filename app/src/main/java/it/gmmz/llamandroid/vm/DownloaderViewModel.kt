@@ -56,6 +56,7 @@ class DownloaderViewModel : ViewModel() {
             .build()
 
         fetch = Fetch.getInstance(fetchConfiguration)
+        fetch.removeAll()
         fetch.addListener(createFetchListener())
     }
 
@@ -64,8 +65,12 @@ class DownloaderViewModel : ViewModel() {
             val file = File(filePath)
             val fileName = file.name
 
+            if (downloads.value.isEmpty()) {
+                fetch.removeAll()
+            }
+
             val request = Request(url, filePath)
-            request.priority = Priority.NORMAL
+            request.priority = Priority.HIGH
             request.networkType = NetworkType.ALL
 
             fetch.enqueue(request, func = { updatedRequest ->
